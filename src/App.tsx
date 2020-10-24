@@ -6,6 +6,7 @@ import { GlobalStyle, Wrapper } from "./App.styles";
 const TOTAL_QUESTIONS = 10;
 
 const App = () => {
+
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState<QuestionState[]>([]);
   const [number, setNumber] = useState(0);

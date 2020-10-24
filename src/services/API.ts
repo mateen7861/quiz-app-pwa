@@ -7,17 +7,36 @@ export enum Difficulty {
   HARD = "hard",
 }
 
+
+
 export const fetchQuizQuestions = async (
   amount: number,
   difficulty: Difficulty
 ) => {
-  const URL = `https://opentdb.com/api.php?amount=${amount}&difficulty=${difficulty}&type=multiple`;
-  const data = await (await fetch(URL)).json();
-  return data.results.map((question: Question) => ({
-    ...question,
-    answers: shuffleArray([
-      ...question.incorrect_answers,
-      question.correct_answer,
-    ]),
-  }));
+  try {
+
+    const URL = `https://opentdb.com/api.php?amount=${amount}&difficulty=${difficulty}&type=multiple`;
+    const data = await (await fetch(URL)).json();
+    localStorage.setItem("data", JSON.stringify(data));
+
+    return data.results.map((question: Question) => ({
+      ...question,
+      answers: shuffleArray([
+        ...question.incorrect_answers,
+        question.correct_answer,
+      ]),
+    }));
+  } catch (error) {
+
+
+    const dataOff: any = localStorage.getItem("data")
+    const dataOff1 = JSON.parse(dataOff)
+    return dataOff1.results.map((question: Question) => ({
+      ...question,
+      answers: shuffleArray([
+        ...question.incorrect_answers,
+        question.correct_answer,
+      ]),
+    }));
+  }
 };
